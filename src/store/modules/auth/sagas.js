@@ -1,23 +1,39 @@
 import { all, takeLatest, call, put } from 'redux-saga/effects';
-
+import { toast } from 'react-toastify';
 import history from '~/Services/history';
 import api from '~/Services/api';
 
-import { signInSuccess } from './actions';
+import { signInSuccess, signFailure } from './actions';
 
 export function* signIn({ payload }) {
-  const { email, password } = payload;
+  try {
+    const { email, password } = payload;
 
-  const response = yield call(api.post, 'sessions', { email, password });
+    const response = yield call(api.post, 'sessions', { email, password });
 
-  const { token, user } = response.data;
+    const { token, user } = response.data;
 
-  if (!user.provider) {
-    console.tron.error('Usuario nao e prestador');
+    api.defaults.headers.Authorization = `Bearer ${token}`;
+
+    yield put(signInSuccess(token, user));
+
+    history.push('/students');
+  } catch (err) {
+    toast.error('Falha na autenticacao, veirifique seus dados');
+    yield put(signFailure());
   }
-
-  yield put(signInSuccess(token, user));
-
-  history.push('/students');
 }
-export default all([takeLatest('@auth/SIGN_IN_REQUEST', signIn)]);
+
+export function setToken({ payload }) {
+  if (!payload) return;
+
+  const { token } = payload.auth;
+
+  if (token) {
+    api.defaults.headers.Authorization = `Bearer ${token}`;
+  }
+}
+export default all([
+  takeLatest('persist/REHYDRATE', setToken),
+  takeLatest('@auth/SIGN_IN_REQUEST', signIn),
+]);
