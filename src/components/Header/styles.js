@@ -9,7 +9,7 @@ export const Container = styled.div`
 
 export const Content = styled.div`
   height: 64px;
-  max-width: 900px;
+  max-width: 1440px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -53,6 +53,7 @@ export const Content = styled.div`
     padding-top: 14px;
     flex-direction: column;
     color: #666666;
+    font-size: 16px;
     span {
       font-weight: bold;
       margin-bottom: 2px;
