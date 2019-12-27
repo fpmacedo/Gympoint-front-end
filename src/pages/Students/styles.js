@@ -71,13 +71,27 @@ export const Table = styled.table`
   }
   tbody tr {
     button {
+      margin-right: 5px;
       border: none;
       background: none;
-      color: #ee4d64;
       font-weight: bold;
     }
   }
   tbody tr a {
     color: #4d85ee;
   }
+`;
+
+export const EditButton = styled.button`
+  margin-right: 10px;
+  border: none;
+  background: none;
+  color: #4d85ee;
+`;
+
+export const DeleteButton = styled.button`
+  border: none;
+  margin-left: 10px;
+  background: none;
+  color: #ee4d64;
 `;

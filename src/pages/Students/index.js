@@ -1,7 +1,7 @@
 import { Input } from '@rocketseat/unform';
 import React, { useEffect, useState } from 'react';
 import api from '~/Services/api';
-import { HeaderMenu, Table } from './styles';
+import { HeaderMenu, Table, EditButton, DeleteButton } from './styles';
 
 export default function Students() {
   const [students, setStudents] = useState([]);
@@ -15,6 +15,15 @@ export default function Students() {
   useEffect(() => {
     loadStudents();
   });
+
+  async function handleDelete(id) {
+    console.tron.log(id);
+    const response = await api.delete(`students/${id}`);
+    console.tron.log(response);
+    // loadStudents();
+  }
+
+  // async function handleEdit() {}
 
   return (
     <>
@@ -38,13 +47,18 @@ export default function Students() {
         </thead>
         <tbody>
           {students.map(student => (
-            <tr>
+            <tr key={student.id}>
               <td>{student.name}</td>
               <td>{student.email}</td>
               <td>{student.age}</td>
               <td>
-                <button>editar</button>
-                <button>apagar</button>
+                <EditButton type="button">editar</EditButton>
+                <DeleteButton
+                  type="button"
+                  onClick={() => handleDelete(student.id)}
+                >
+                  apagar
+                </DeleteButton>
               </td>
             </tr>
           ))}
