@@ -1,13 +1,16 @@
 import { Input } from '@rocketseat/unform';
 import React, { useEffect, useState } from 'react';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import api from '~/Services/api';
 import { HeaderMenu, Table, EditButton, DeleteButton } from './styles';
 
 export default function Students() {
   const [students, setStudents] = useState([]);
+  const [search, setSearch] = useState('');
 
   async function loadStudents() {
-    const response = await api.get('students?name');
+    const response = await api.get(`students?name=${search}`);
 
     setStudents(response.data);
   }
@@ -17,13 +20,26 @@ export default function Students() {
   });
 
   async function handleDelete(id) {
-    console.tron.log(id);
-    const response = await api.delete(`students/${id}`);
-    console.tron.log(response);
+    await api.delete(`students/${id}`);
     // loadStudents();
   }
 
-  // async function handleEdit() {}
+  function confirmDelete(id) {
+    confirmAlert({
+      title: 'Confirmação de exclusão',
+      message: 'Você quer mesmo excluir esse aluno?',
+      buttons: [
+        {
+          label: 'Sim',
+          onClick: () => handleDelete(id),
+        },
+        {
+          label: 'Não',
+          onClick: () => {},
+        },
+      ],
+    });
+  }
 
   return (
     <>
@@ -34,7 +50,11 @@ export default function Students() {
           <button type="button" name="cadastrar">
             CADASTRAR
           </button>
-          <Input name="name" placeholder="Buscar aluno" />
+          <Input
+            name="search"
+            placeholder="Buscar aluno"
+            onChange={e => setSearch(e.target.value)}
+          />
         </aside>
       </HeaderMenu>
       <Table>
@@ -55,7 +75,7 @@ export default function Students() {
                 <EditButton type="button">editar</EditButton>
                 <DeleteButton
                   type="button"
-                  onClick={() => handleDelete(student.id)}
+                  onClick={() => confirmDelete(student.id)}
                 >
                   apagar
                 </DeleteButton>
