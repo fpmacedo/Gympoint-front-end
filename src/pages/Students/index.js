@@ -99,7 +99,7 @@ export default function Students() {
           disabled={students.length / 20 < 1}
           onClick={() => setPage(page + 1)}
         >
-          Proxima página
+          Próxima página
         </PageButton>
       </div>
     </>

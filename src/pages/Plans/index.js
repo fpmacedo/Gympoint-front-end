@@ -3,14 +3,21 @@ import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import api from '~/Services/api';
 import { formatPrice } from '../../util/format';
-import { HeaderMenu, Table, EditButton, DeleteButton } from './styles';
+import {
+  HeaderMenu,
+  Table,
+  EditButton,
+  DeleteButton,
+  PageButton,
+} from './styles';
 
 export default function Plans() {
   const [plans, setPlans] = useState([]);
+  const [page, setPage] = useState(1);
   const countMonth = ['mês', 'meses'];
 
   async function loadPlans() {
-    const response = await api.get(`plans`);
+    const response = await api.get(`plans?page=${page}`);
 
     const data = response.data.map(plan => ({
       ...plan,
@@ -88,6 +95,18 @@ export default function Plans() {
           ))}
         </tbody>
       </Table>
+      <div align="center">
+        <PageButton disabled={page < 2} onClick={() => setPage(page - 1)}>
+          Página anterior
+        </PageButton>
+        <span>{page}</span>
+        <PageButton
+          disabled={plans.length / 20 < 1}
+          onClick={() => setPage(page + 1)}
+        >
+          Próxima página
+        </PageButton>
+      </div>
     </>
   );
 }
