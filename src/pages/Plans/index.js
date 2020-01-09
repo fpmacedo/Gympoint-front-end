@@ -2,15 +2,27 @@ import React, { useEffect, useState } from 'react';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import api from '~/Services/api';
+import { formatPrice } from '../../util/format';
 import { HeaderMenu, Table, EditButton, DeleteButton } from './styles';
 
 export default function Plans() {
   const [plans, setPlans] = useState([]);
+  const countMonth = ['mês', 'meses'];
 
   async function loadPlans() {
     const response = await api.get(`plans`);
 
-    setPlans(response.data);
+    const data = response.data.map(plan => ({
+      ...plan,
+      durationFormatted: `${
+        plan.duration < 2
+          ? `${plan.duration} ${countMonth[0]}`
+          : `${plan.duration} ${countMonth[1]}`
+      }`,
+      priceFormatted: formatPrice(plan.price),
+    }));
+
+    setPlans(data);
   }
 
   useEffect(() => {
@@ -61,8 +73,8 @@ export default function Plans() {
           {plans.map(plan => (
             <tr key={plan.id}>
               <td>{plan.title}</td>
-              <td>{plan.duration}</td>
-              <td>R$ {plan.price}</td>
+              <td>{plan.durationFormatted}</td>
+              <td>{plan.priceFormatted}</td>
               <td>
                 <EditButton type="button">editar</EditButton>
                 <DeleteButton

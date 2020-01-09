@@ -95,3 +95,18 @@ export const DeleteButton = styled.button`
   background: none;
   color: #ee4d64;
 `;
+
+export const PageButton = styled.button`
+  border: none;
+  background: #ee4d64;
+  color: #eee;
+  border-radius: 2px;
+  padding: 5px;
+  align-items: center;
+  margin: 20px 20px 20px 20px;
+
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+`;

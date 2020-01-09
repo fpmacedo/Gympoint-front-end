@@ -3,14 +3,20 @@ import React, { useEffect, useState } from 'react';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import api from '~/Services/api';
-import { HeaderMenu, Table, EditButton, DeleteButton } from './styles';
+import {
+  HeaderMenu,
+  Table,
+  EditButton,
+  DeleteButton,
+  PageButton,
+} from './styles';
 
 export default function Students() {
   const [students, setStudents] = useState([]);
   const [search, setSearch] = useState('');
-
+  const [page, setPage] = useState(1);
   async function loadStudents() {
-    const response = await api.get(`students?name=${search}`);
+    const response = await api.get(`students?name=${search}&page=${page}`);
 
     setStudents(response.data);
   }
@@ -84,6 +90,18 @@ export default function Students() {
           ))}
         </tbody>
       </Table>
+      <div align="center">
+        <PageButton disabled={page < 2} onClick={() => setPage(page - 1)}>
+          Página anterior
+        </PageButton>
+        <span>{page}</span>
+        <PageButton
+          disabled={students.length / 20 < 1}
+          onClick={() => setPage(page + 1)}
+        >
+          Proxima página
+        </PageButton>
+      </div>
     </>
   );
 }
