@@ -1,7 +1,7 @@
 import { Input } from '@rocketseat/unform';
 import React, { useEffect, useState } from 'react';
-import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 import api from '~/Services/api';
 import {
   HeaderMenu,
@@ -15,35 +15,35 @@ export default function Students() {
   const [students, setStudents] = useState([]);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
-  async function loadStudents() {
-    const response = await api.get(`students?name=${search}&page=${page}`);
 
-    setStudents(response.data);
-  }
+  const MySwal = withReactContent(Swal);
 
   useEffect(() => {
+    async function loadStudents() {
+      const response = await api.get(`students?name=${search}&page=${page}`);
+
+      setStudents(response.data);
+    }
     loadStudents();
-  });
+  }, [search, page]);
 
   async function handleDelete(id) {
-    await api.delete(`students/${id}`);
-    // loadStudents();
-  }
-
-  function confirmDelete(id) {
-    confirmAlert({
-      title: 'Confirmação de exclusão',
-      message: 'Você quer mesmo excluir esse aluno?',
-      buttons: [
-        {
-          label: 'Sim',
-          onClick: () => handleDelete(id),
-        },
-        {
-          label: 'Não',
-          onClick: () => {},
-        },
-      ],
+    MySwal.fire({
+      title: 'Você tem certeza?',
+      text: 'Você não irá poder desfazer essa alteração!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sim, deletar!',
+      cancelButtonText: 'Cancelar',
+    }).then(result => {
+      if (result.value) {
+        api.delete(`students/${id}`);
+        const updatedList = students.filter(student => student.id !== id);
+        setStudents(updatedList);
+        Swal.fire('Deletado!', 'O aluno foi deletado com sucesso!', 'success');
+      }
     });
   }
 
@@ -81,7 +81,7 @@ export default function Students() {
                 <EditButton type="button">editar</EditButton>
                 <DeleteButton
                   type="button"
-                  onClick={() => confirmDelete(student.id)}
+                  onClick={() => handleDelete(student.id)}
                 >
                   apagar
                 </DeleteButton>

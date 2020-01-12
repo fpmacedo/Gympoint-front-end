@@ -18,24 +18,16 @@ export default function Header() {
           <img src={logoheader} alt="Gympoint" />
           <ul>
             <li>
-              <NavLink activeClassName="nav-link" to="/students">
-                ALUNOS
-              </NavLink>
+              <NavLink to="/students">ALUNOS</NavLink>
             </li>
             <li>
-              <NavLink activeClassName="nav-link" to="/plans">
-                PLANOS
-              </NavLink>
+              <NavLink to="/plans">PLANOS</NavLink>
             </li>
             <li>
-              <NavLink activeClassName="nav-link" to="/enrollments">
-                MATRÍCULAS
-              </NavLink>
+              <NavLink to="/enrollments">MATRÍCULAS</NavLink>
             </li>
             <li>
-              <NavLink activeClassName="nav-link" to="/help-orders">
-                PEDIDOS DE AUXÍLIO
-              </NavLink>
+              <NavLink to="/help-orders">PEDIDOS DE AUXÍLIO</NavLink>
             </li>
           </ul>
         </nav>

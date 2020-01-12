@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 import api from '~/Services/api';
 import { formatPrice } from '../../util/format';
 import {
@@ -16,51 +16,52 @@ export default function Plans() {
   const [page, setPage] = useState(1);
   const countMonth = ['mês', 'meses'];
 
-  async function loadPlans() {
-    const response = await api.get(`plans?page=${page}`);
-
-    const data = response.data.map(plan => ({
-      ...plan,
-      durationFormatted: `${
-        plan.duration < 2
-          ? `${plan.duration} ${countMonth[0]}`
-          : `${plan.duration} ${countMonth[1]}`
-      }`,
-      priceFormatted: formatPrice(plan.price),
-    }));
-
-    setPlans(data);
-  }
+  const MySwal = withReactContent(Swal);
 
   useEffect(() => {
+    async function loadPlans() {
+      const response = await api.get(`plans?page=${page}`);
+
+      const data = response.data.map(plan => ({
+        ...plan,
+        durationFormatted: `${
+          plan.duration < 2
+            ? `${plan.duration} ${countMonth[0]}`
+            : `${plan.duration} ${countMonth[1]}`
+        }`,
+        priceFormatted: formatPrice(plan.price),
+      }));
+
+      setPlans(data);
+    }
     loadPlans();
-  });
+    // eslint-disable-next-line
+  }, [page]);
 
   async function handleDelete(id) {
-    await api.delete(`plans/${id}`);
-  }
-
-  function confirmDelete(id) {
-    confirmAlert({
-      title: 'Confirmação de exclusão',
-      message: 'Você quer mesmo excluir esse plano?',
-      buttons: [
-        {
-          label: 'Sim',
-          onClick: () => handleDelete(id),
-        },
-        {
-          label: 'Não',
-          onClick: () => {},
-        },
-      ],
+    MySwal.fire({
+      title: 'Você tem certeza?',
+      text: 'Você não irá poder desfazer essa alteração!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sim, deletar!',
+      cancelButtonText: 'Cancelar',
+    }).then(result => {
+      if (result.value) {
+        api.delete(`plans/${id}`);
+        const updatedList = plans.filter(plan => plan.id !== id);
+        setPlans(updatedList);
+        Swal.fire('Deletado!', 'O aluno foi deletado com sucesso!', 'success');
+      }
     });
   }
 
   return (
     <>
       <HeaderMenu>
-        <span>Gerenciando alunos</span>
+        <span>Gerenciando planos</span>
 
         <aside>
           <button type="button" name="cadastrar">
@@ -86,7 +87,7 @@ export default function Plans() {
                 <EditButton type="button">editar</EditButton>
                 <DeleteButton
                   type="button"
-                  onClick={() => confirmDelete(plan.id)}
+                  onClick={() => handleDelete(plan.id)}
                 >
                   apagar
                 </DeleteButton>
