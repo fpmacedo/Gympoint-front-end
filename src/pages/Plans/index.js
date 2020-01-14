@@ -53,7 +53,7 @@ export default function Plans() {
         api.delete(`plans/${id}`);
         const updatedList = plans.filter(plan => plan.id !== id);
         setPlans(updatedList);
-        Swal.fire('Deletado!', 'O aluno foi deletado com sucesso!', 'success');
+        Swal.fire('Deletado!', 'O plano foi deletado com sucesso!', 'success');
       }
     });
   }
