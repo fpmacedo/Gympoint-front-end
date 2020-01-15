@@ -8,6 +8,7 @@ import Signin from '~/pages/Signin';
 import Students from '~/pages/Students';
 import Plans from '~/pages/Plans';
 import Enrollments from '~/pages/Enrollments';
+import HelpOrders from '~/pages/HelpOrders';
 
 export default function Routes() {
   return (
@@ -16,6 +17,7 @@ export default function Routes() {
       <Route path="/students" component={Students} isPrivate />
       <Route path="/plans" component={Plans} isPrivate />
       <Route path="/enrollments" component={Enrollments} isPrivate />
+      <Route path="/help-orders" component={HelpOrders} isPrivate />
     </Switch>
   );
 }
