@@ -95,8 +95,14 @@ export default function Enrollments() {
         <tbody>
           {enrollments.map(enrollment => (
             <tr key={enrollment.id}>
-              <td>{enrollment.students.name}</td>
-              <td>{enrollment.plans.title}</td>
+              <td>
+                {enrollment.students
+                  ? enrollment.students.name
+                  : 'ALUNO NÃO EXISTE'}
+              </td>
+              <td>
+                {enrollment.plans ? enrollment.plans.title : 'PLANO NÃO EXISTE'}
+              </td>
               <td>{enrollment.startDateFormatted}</td>
               <td>{enrollment.endDateFormatted}</td>
               <td>{enrollment.active ? 'SIM' : 'NÃO'}</td>
