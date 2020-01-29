@@ -65,7 +65,3 @@ export const Content = styled.div`
     }
   }
 `;
-
-export const Navigator = styled.link`
-  color: #666666;
-`;

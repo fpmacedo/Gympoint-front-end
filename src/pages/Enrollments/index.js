@@ -98,10 +98,12 @@ export default function Enrollments() {
               <td>
                 {enrollment.students
                   ? enrollment.students.name
-                  : 'ALUNO NÃO EXISTE'}
+                  : 'ALUNO NÃO ENCONTRADO'}
               </td>
               <td>
-                {enrollment.plans ? enrollment.plans.title : 'PLANO NÃO EXISTE'}
+                {enrollment.plans
+                  ? enrollment.plans.title
+                  : 'PLANO NÃO ENCONTRADO'}
               </td>
               <td>{enrollment.startDateFormatted}</td>
               <td>{enrollment.endDateFormatted}</td>

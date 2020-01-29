@@ -1,5 +1,6 @@
 import { Input } from '@rocketseat/unform';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import api from '~/Services/api';
@@ -52,9 +53,11 @@ export default function Students() {
         <span>Gerenciando alunos</span>
 
         <aside>
-          <button type="button" name="cadastrar">
-            CADASTRAR
-          </button>
+          <Link to="/register/student">
+            <button type="button" name="cadastrar">
+              CADASTRAR
+            </button>
+          </Link>
           <Input
             name="search"
             placeholder="Buscar aluno"

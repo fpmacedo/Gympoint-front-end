@@ -41,7 +41,11 @@ export default function HelpOrders() {
         <tbody>
           {helporders.map(helporder => (
             <tr key={helporder.id}>
-              <td>{helporder.students.name}</td>
+              <td>
+                {helporder.students
+                  ? helporder.students.name
+                  : 'ALUNO NÃO ENCONTRADO'}
+              </td>
 
               <td>
                 <AnswerButton type="button">responder</AnswerButton>
