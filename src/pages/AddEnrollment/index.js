@@ -77,11 +77,11 @@ export default function AddEnrollment() {
   const formatDate = moment(startDate).toISOString();
 
   const totalPrice = useMemo(() => {
-    if (!plan.total_price) {
-      return '';
+    if (!plan.price) {
+      return 'de';
     }
-    const { total_price } = plan;
-    const format_Price = formatPrice(total_price);
+    const { price, duration } = plan;
+    const format_Price = formatPrice(price * duration);
 
     return format_Price;
   }, [plan]);
