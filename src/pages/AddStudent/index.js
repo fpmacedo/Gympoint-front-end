@@ -9,7 +9,7 @@ import { Container, Nav, FormInserts, NumbersDiv, StringDiv } from './styles';
 
 import history from '~/Services/history';
 
-export default function Students() {
+export default function AddStudent() {
   const schema = Yup.object().shape({
     name: Yup.string().required('O nome é obrigatório'),
     email: Yup.string()

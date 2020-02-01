@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import api from '~/Services/api';
@@ -64,9 +65,11 @@ export default function Plans() {
         <span>Gerenciando planos</span>
 
         <aside>
-          <button type="button" name="cadastrar">
-            CADASTRAR
-          </button>
+          <Link to="/register/plan">
+            <button type="button" name="cadastrar">
+              CADASTRAR
+            </button>
+          </Link>
         </aside>
       </HeaderMenu>
       <Table>
