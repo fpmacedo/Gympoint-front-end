@@ -80,7 +80,9 @@ export default function Students() {
               <td>{student.email}</td>
               <td>{student.age}</td>
               <td>
-                <EditButton type="button">editar</EditButton>
+                <Link to={`/edit/student/${student.id}`}>
+                  <EditButton type="button">editar</EditButton>
+                </Link>
                 <DeleteButton
                   type="button"
                   onClick={() => handleDelete(student.id)}

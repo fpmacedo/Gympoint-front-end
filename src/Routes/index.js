@@ -7,6 +7,7 @@ import Signin from '~/pages/Signin';
 // authenticated routes
 import Students from '~/pages/Students';
 import AddStudent from '~/pages/AddStudent';
+import EditStudent from '~/pages/EditStudent';
 import AddPlan from '~/pages/AddPlan';
 import AddEnrollment from '~/pages/AddEnrollment';
 import Plans from '~/pages/Plans';
@@ -18,6 +19,7 @@ export default function Routes() {
     <Switch>
       <Route path="/" exact component={Signin} />
       <Route path="/register/student" component={AddStudent} isPrivate />
+      <Route path="/edit/student/:id" component={EditStudent} isPrivate />
       <Route path="/register/plan" component={AddPlan} isPrivate />
       <Route path="/register/enrollment" component={AddEnrollment} isPrivate />
       <Route path="/students" component={Students} isPrivate />
