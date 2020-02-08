@@ -87,7 +87,9 @@ export default function Plans() {
               <td>{plan.durationFormatted}</td>
               <td>{plan.priceFormatted}</td>
               <td>
-                <EditButton type="button">editar</EditButton>
+                <Link to={`/edit/plan/${plan.id}`}>
+                  <EditButton type="button">editar</EditButton>
+                </Link>
                 <DeleteButton
                   type="button"
                   onClick={() => handleDelete(plan.id)}
