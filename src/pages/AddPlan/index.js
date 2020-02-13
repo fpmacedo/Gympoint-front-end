@@ -2,6 +2,7 @@ import * as Yup from 'yup';
 import { Form, Input } from '@rocketseat/unform';
 import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import { MdCheck, MdClose } from 'react-icons/md';
 import api from '~/Services/api';
 import { Container, Nav, FormInserts, NumbersDiv, StringDiv } from './styles';
@@ -24,8 +25,12 @@ export default function AddPlan() {
   }, [price, duration]);
 
   async function handleSubmit(data) {
-    await api.post('/plans', data);
-    history.push('/plans');
+    try {
+      await api.post('/plans', data);
+      history.push('/plans');
+    } catch (error) {
+      toast.error(error.response.data.error);
+    }
   }
 
   return (

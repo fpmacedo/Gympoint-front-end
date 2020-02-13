@@ -3,6 +3,7 @@ import { Form, Input } from '@rocketseat/unform';
 import { Link } from 'react-router-dom';
 import React, { useState, useMemo, useEffect } from 'react';
 import { MdCheck, MdClose } from 'react-icons/md';
+import { toast } from 'react-toastify';
 import pt from 'date-fns/locale/pt';
 import { format, addMonths } from 'date-fns';
 import moment from 'moment';
@@ -100,12 +101,16 @@ export default function AddEnrollment() {
     const studentId = student.value;
     const planId = plan.value;
 
-    await api.post('/enrollments', {
-      student_id: studentId,
-      plan_id: planId,
-      start_date: formatDate,
-    });
-    history.push('/enrollments');
+    try {
+      await api.post('/enrollments', {
+        student_id: studentId,
+        plan_id: planId,
+        start_date: formatDate,
+      });
+      history.push('/enrollments');
+    } catch (error) {
+      toast.error(error.response.data.error);
+    }
   }
 
   return (
