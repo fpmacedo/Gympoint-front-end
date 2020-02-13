@@ -40,7 +40,7 @@ export default function AddPlan() {
                 CANCELAR
               </Link>
             </div>
-            <button type="submit" onClick={handleSubmit}>
+            <button type="submit">
               <MdCheck size={18} color="#FFF" />
               SALVAR
             </button>

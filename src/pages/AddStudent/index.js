@@ -26,8 +26,9 @@ export default function AddStudent() {
       data.weight = data.weight.replace(/,/g, '.');
       await api.post('/students', data);
       history.push('/students');
-    } catch (erro) {
-      toast.error('Preencha todos os dados corretamente.');
+    } catch (error) {
+      console.tron.log(error.response);
+      toast.error(error.response.data.error);
     }
   }
 
